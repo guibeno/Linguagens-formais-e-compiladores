@@ -1,0 +1,29 @@
+#pip install transformers
+#pip install torch
+from transformers import BertTokenizer, BertForMaskedLM
+import torch
+
+# Carrega o tokenizer e o modelo BERT pré-treinado
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertForMaskedLM.from_pretrained('bert-base-uncased')
+
+# Frase com uma palavra mascarada
+#frase = "The capital of France is [MASK]."
+frase = "The capital of Italy is [MASK]."
+
+# Tokeniza a frase
+inputs = tokenizer(frase, return_tensors="pt")
+
+# Gera previsões
+with torch.no_grad():
+    outputs = model(**inputs)
+    predictions = outputs.logits
+
+# Encontra o índice do token [MASK]
+mask_token_index = torch.where(inputs.input_ids == tokenizer.mask_token_id)[1]
+
+# Obtém o token mais provável
+predicted_token_id = predictions[0, mask_token_index, :].argmax(axis=-1)
+predicted_token = tokenizer.decode(predicted_token_id)
+
+print(f"Palavra prevista: {predicted_token}")
