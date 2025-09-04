@@ -1,0 +1,22 @@
+texto = '<!DOCTYPE html><html lang="pt-br">  <head><title>Título da página</title><meta charset="utf-8"></head><body> Aqui vai o código HTML que fará seu site aparecer.</body></html>'
+lista_de_tags = ['<title>','</title>','<body>','</body>']
+
+
+
+def contagem_de_tags(texto):
+    particula_do_texto = ''
+    for caracter in texto:
+        particula_do_texto = particula_do_texto + caracter
+        print('p',particula_do_texto)
+        if '</title>' in particula_do_texto:
+            titulo = particula_do_texto
+            particula_do_texto = ''
+            print('t',titulo)
+
+
+contagem_de_tags(texto)
+
+
+
+
+#if caracter in lista_de_tags:
